@@ -29,9 +29,18 @@ body {
   gap: 5px;
 }
 
+.refresh_icon {
+  cursor: pointer;
+}
+
+.refresh_icon:hover {
+  transform: rotate(45deg);
+}
+
 .select_wrap {
   display: flex;
   gap: 20px;
+  align-items: center;
 }
 
 .select {

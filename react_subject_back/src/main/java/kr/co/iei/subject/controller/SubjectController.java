@@ -26,8 +26,6 @@ public class SubjectController {
 	public ResponseEntity<?> selectSubjectList(@ModelAttribute SubjectRequest request){
 		List<Subject> list = subjectService.selectSubjectList(request);
 		
-		System.out.println(request);
-		
 		return ResponseEntity.ok(list);
 	}//
 }

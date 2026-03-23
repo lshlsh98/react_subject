@@ -5,6 +5,7 @@ import axios from "axios";
 import SearchIcon from "@mui/icons-material/Search";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import BasicSelect from "./BasicSelect";
+import { Height } from "@mui/icons-material";
 
 function App() {
   const [subjectList, setSubjectList] = useState([]);
@@ -16,13 +17,11 @@ function App() {
   const [searchKey, setSearchKey] = useState("");
 
   useEffect(() => {
-    console.log(searchKey);
     axios
       .get(
         `${import.meta.env.VITE_BACKSERVER}/subjects?category=${category}&level=${level}&order=${order}&searchKey=${searchKey}`,
       )
       .then((res) => {
-        console.log(res.data);
         setSubjectList(res.data);
       })
       .catch((err) => {
@@ -116,6 +115,8 @@ function App() {
           />
 
           <RefreshIcon
+            className={styles.refresh_icon}
+            sx={{ fontSize: 30 }}
             onClick={() => {
               setCategory(0);
               setLevel(0);
