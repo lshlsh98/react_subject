@@ -1,0 +1,52 @@
+.subject_list_wrap {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+.subject_item {
+  list-style-type: none;
+  display: flex;
+  border-bottom: 1px solid rgb(206, 206, 206);
+  margin: 0;
+  padding: 10px;
+}
+
+.subject_item > li {
+  padding: 12px 0;
+  text-align: center;
+}
+
+.subject_no {
+  width: 8%;
+}
+
+.subject_title {
+  width: 40%;
+}
+
+.subject_instructor {
+  width: 14%;
+}
+
+.subject_category {
+  width: 14%;
+}
+
+.subject_level {
+  width: 14%;
+}
+
+.subject_count {
+  width: 10%;
+}
+
+.title_ul {
+  background-color: rgb(240, 240, 240);
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.title_ul > li {
+  color: rgb(70, 87, 87);
+  font-weight: 600;
+}
