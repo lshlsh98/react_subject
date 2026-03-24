@@ -16,9 +16,6 @@ public class SubjectService {
 	private SubjectDao subjectDao;
 
 	public List<Subject> selectSubjectList(SubjectRequest request) {
-		
-		
-		
 		List<Subject> list = subjectDao.selectSubjectList(request);
 		
 		return list;

@@ -5,7 +5,6 @@ import axios from "axios";
 import SearchIcon from "@mui/icons-material/Search";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import BasicSelect from "./BasicSelect";
-import { Height } from "@mui/icons-material";
 
 function App() {
   const [subjectList, setSubjectList] = useState([]);
@@ -97,20 +96,20 @@ function App() {
             <option value={4}>인원 많은순</option>
           </select> */}
           <BasicSelect
-            state1={category}
-            setState1={setCategory}
+            sta={category}
+            setSta1={setCategory}
             list={["카테고리", "백엔드", "프론트", "DB"]}
           />
 
           <BasicSelect
-            state1={level}
-            setState1={setLevel}
+            sta={level}
+            setSta1={setLevel}
             list={["난이도", "초급", "중급", "고급"]}
           />
 
           <BasicSelect
-            state1={order}
-            setState1={setOrder}
+            sta={order}
+            setSta1={setOrder}
             list={["작성순", "쉬운순", "어려운순", "적은순", "많은순"]}
           />
 

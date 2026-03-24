@@ -3,9 +3,9 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-const BasicSelect = ({ state1, setState1, list }) => {
+const BasicSelect = ({ sta, setSta1, list }) => {
   const handleChange = (event) => {
-    setState1(event.target.value);
+    setSta1(event.target.value);
   };
 
   return (
@@ -14,7 +14,7 @@ const BasicSelect = ({ state1, setState1, list }) => {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={state1}
+          value={sta}
           onChange={handleChange}
           sx={{ fontSize: "0.75rem", padding: "0px" }}
         >
