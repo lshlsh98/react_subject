@@ -1,5 +1,8 @@
 package kr.co.iei.member.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -8,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import kr.co.iei.common.auth.JwtTokenProvider;
 import kr.co.iei.member.model.service.MemberService;
 import kr.co.iei.member.model.vo.Member;
 import kr.co.iei.member.model.vo.MemberLoginReqDto;
@@ -19,6 +23,8 @@ public class MemberController {
 	
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private JwtTokenProvider jwtTokenProvider;
 	
 	@PostMapping("/create")
 	public ResponseEntity<?> memberCreate(@RequestBody MemberSaveReqDto request){
@@ -33,9 +39,13 @@ public class MemberController {
 		Member member = memberService.login(request);
 		
 		// 일치할 경우 access 토큰 발행
+		String jwtToken = jwtTokenProvider.createToken(member.getEmail(), member.getRole());
 		
-		return null;
+		Map<String, Object> loginInfo = new HashMap<>();
+		loginInfo.put("id", member.getId());
+		loginInfo.put("token", jwtToken);
 		
+		return ResponseEntity.ok(loginInfo);
 	}//
 
 }
