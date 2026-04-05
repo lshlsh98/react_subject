@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -19,6 +21,7 @@ public class Securityconfigs {
 	
 	@Autowired
 	private JwtAuthFilter jwtAuthFilter;
+	
 
 	@Bean
 	public SecurityFilterChain myFilter(HttpSecurity httpSecurity) {
@@ -46,6 +49,11 @@ public class Securityconfigs {
 		source.registerCorsConfiguration("/**", configuration);	// 모든 url 에 패턴에 대해 cors 허용 설정
 		
 		return source;
+	}//
+	
+	@Bean
+	public PasswordEncoder makePassword() {
+		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	}//
 }
 

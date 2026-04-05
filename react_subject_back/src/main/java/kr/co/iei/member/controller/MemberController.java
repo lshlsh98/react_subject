@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kr.co.iei.member.model.service.MemberService;
 import kr.co.iei.member.model.vo.Member;
+import kr.co.iei.member.model.vo.MemberLoginReqDto;
 import kr.co.iei.member.model.vo.MemberSaveReqDto;
 
 @RestController
@@ -24,6 +25,17 @@ public class MemberController {
 		Member member = memberService.create(request);
 		
 		return ResponseEntity.ok(member.getId());
+	}//
+	
+	@PostMapping("/doLogin")
+	public ResponseEntity<?> doLogin(@RequestBody MemberLoginReqDto request){
+		// email, password 검증
+		Member member = memberService.login(request);
+		
+		// 일치할 경우 access 토큰 발행
+		
+		return null;
+		
 	}//
 
 }
