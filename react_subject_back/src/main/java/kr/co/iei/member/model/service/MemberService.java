@@ -1,0 +1,39 @@
+package kr.co.iei.member.model.service;
+
+import java.util.Objects;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import kr.co.iei.member.model.dao.MemberDao;
+import kr.co.iei.member.model.vo.Member;
+import kr.co.iei.member.model.vo.MemberSaveReqDto;
+
+@Service
+public class MemberService {
+	
+	@Autowired
+	private MemberDao memberDao;
+
+	@Transactional
+	public Member create(MemberSaveReqDto request) {
+		// 이미 가입되어 있는 이메일 검증
+		String findEmail = memberDao.findByEmail(request.getEmail());
+		if(Objects.equals(findEmail, request.getEmail())) {
+			throw new IllegalArgumentException("이미 존재하는 이메일 입니다.");
+		}
+		
+		Member newMember = new Member();
+		newMember.setName(request.getName());
+		newMember.setEmail(request.getEmail());
+		newMember.setPassword(request.getPassword());
+		
+		int result = memberDao.save(newMember);
+		
+		Member member = memberDao.findMemberByEmail(request.getEmail());
+		
+		return member;
+	}//
+
+}
