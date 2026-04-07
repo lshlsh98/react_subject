@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -17,12 +18,12 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import kr.co.iei.common.auth.JwtAuthFilter;
 
+@Configuration
 public class Securityconfigs {
 	
 	@Autowired
 	private JwtAuthFilter jwtAuthFilter;
 	
-
 	@Bean
 	public SecurityFilterChain myFilter(HttpSecurity httpSecurity) {
 		
@@ -38,7 +39,7 @@ public class Securityconfigs {
 	}//
 	
 	@Bean
-	private CorsConfigurationSource corsConfigurationSource() {
+	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
 		configuration.setAllowedMethods(Arrays.asList("*"));	// 모든 HTTP 메서드 허용

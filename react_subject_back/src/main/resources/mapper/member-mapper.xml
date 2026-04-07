@@ -29,4 +29,11 @@
 		FROM member_tbl
 		WHERE email = #{email}
 	</select>
+	
+	<select id="findAll" resultType="member">
+		SELECT * 
+		FROM member_tbl
+	</select>
+	
 </mapper>
+

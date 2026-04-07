@@ -1,5 +1,7 @@
 package kr.co.iei.member.model.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.iei.member.model.dao.MemberDao;
 import kr.co.iei.member.model.vo.Member;
+import kr.co.iei.member.model.vo.MemberListResDto;
 import kr.co.iei.member.model.vo.MemberLoginReqDto;
 import kr.co.iei.member.model.vo.MemberSaveReqDto;
 
@@ -19,7 +22,7 @@ public class MemberService {
 	@Autowired
 	private MemberDao memberDao;
 	@Autowired
-	private PasswordEncoder passwordEncorder;
+	private PasswordEncoder passwordEncoder;
 
 	public Member create(MemberSaveReqDto request) {
 		// 이미 가입되어 있는 이메일 검증
@@ -31,7 +34,7 @@ public class MemberService {
 		Member newMember = new Member();
 		newMember.setName(request.getName());
 		newMember.setEmail(request.getEmail());
-		newMember.setPassword(passwordEncorder.encode(request.getPassword()));
+		newMember.setPassword(passwordEncoder.encode(request.getPassword()));
 	
 		int result = memberDao.save(newMember);
 		
@@ -46,11 +49,25 @@ public class MemberService {
 			throw new IllegalArgumentException("존재하지 않는 이메일 입니다.");
 		}
 		
-		if(!passwordEncorder.matches(request.getPassword(), member.getPassword())) {
+		if(!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
 			throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
 		}
 		
 		return member;
+	}//
+
+	public List<MemberListResDto> findAll() {
+		List<Member> members = memberDao.findAll();
+		List<MemberListResDto> memberListResDtos = new ArrayList<>();
+		for(Member m : members) {
+			MemberListResDto memberListResDto = new MemberListResDto();
+			memberListResDto.setId(m.getId());
+			memberListResDto.setEmail(m.getEmail());
+			memberListResDto.setName(m.getName());
+			memberListResDtos.add(memberListResDto);
+		}
+		
+		return memberListResDtos;
 	}//
 
 }
