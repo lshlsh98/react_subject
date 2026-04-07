@@ -1,0 +1,17 @@
+.header {
+  background-color: rgb(231, 231, 231);
+  padding: 20px;
+  display: flex;
+}
+
+.header_content {
+  width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav {
+  display: flex;
+  gap: 10px;
+}

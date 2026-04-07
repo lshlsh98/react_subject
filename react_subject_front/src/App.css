@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
   color: var(--text1);
+  list-style-type: none;
 }
 
 :root {
@@ -42,6 +43,7 @@ a {
 
 .main {
   flex-grow: 1;
+  margin: 20px auto;
 }
 
 .page-title {
