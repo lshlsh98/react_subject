@@ -48,11 +48,15 @@ public class MemberController {
 		loginInfo.put("id", member.getId());
 		loginInfo.put("token", jwtToken);
 		
+		loginInfo.put("email", member.getEmail());
+		loginInfo.put("name", member.getName());
+		
 		return ResponseEntity.ok(loginInfo);
 	}//
 	
 	@GetMapping("/list")
 	public ResponseEntity<?> memberList(){
+		
 		List<MemberListResDto> dtos = memberService.findAll();
 		
 		return ResponseEntity.ok(dtos);

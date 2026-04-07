@@ -11,6 +11,7 @@ const Header = () => {
 
   const doLogout = () => {
     logout();
+    // delete axios.defaults.headers.common["Authorization"];
     navigate("/");
   };
 
@@ -59,7 +60,7 @@ const Header = () => {
             <>
               <li
                 onClick={() => {
-                  navigate("login");
+                  navigate("/member/login");
                 }}
               >
                 로그인
