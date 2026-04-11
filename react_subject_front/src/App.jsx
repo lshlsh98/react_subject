@@ -7,6 +7,7 @@ import Join from "./Join";
 import Login from "./Login";
 import MemberList from "./MemberList";
 import SimpleWebsocket from "./SimpleWebsocket";
+import StompChatPage from "./StompChatPage";
 
 const App = () => {
   // 새로고침 시 일어나는 동작
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="/member/login" element={<Login />} />
           <Route path="/member/list" element={<MemberList />} />
           <Route path="/simple/chat" element={<SimpleWebsocket />} />
+          <Route path="/chatpage" element={<StompChatPage />} />
         </Routes>
       </main>
     </div>

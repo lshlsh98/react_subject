@@ -60,3 +60,15 @@
   color: white;
   font-size: 17px;
 }
+
+.chat_message {
+  margin-bottom: 10px;
+}
+
+.sent {
+  text-align: right;
+}
+
+.received {
+  text-align: left;
+}

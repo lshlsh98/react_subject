@@ -14,13 +14,13 @@
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.3.9",
     "@mui/material": "^7.3.9",
+    "@stomp/stompjs": "^7.3.0",
     "axios": "^1.13.6",
     "jwt-decode": "^4.0.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-router-dom": "^7.14.0",
     "sockjs-client": "^1.6.1",
-    "webstomp-client": "^1.2.6",
     "zustand": "^5.0.12"
   },
   "devDependencies": {

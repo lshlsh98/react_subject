@@ -1,22 +1,22 @@
-package kr.co.iei.chat.config;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.socket.config.annotation.EnableWebSocket;
-import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
-import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
-
-@Configuration
-@EnableWebSocket
-public class WebSocketConfig implements WebSocketConfigurer{
-	@Autowired
-	private SimpleWebSocketHandler simpleWebSocketHandler;
-
-	@Override
-	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		// /connect url로 websocket 연결 요청이 들어오면, 핸드러 클래스가 처리
-		registry.addHandler(simpleWebSocketHandler, "/connect")
-				// securityconfig 에서의 cors 예외는 http 요청에 대한 예외. 따라서 websocket 프로토콜에 대한 요청에 대해서는 별도의 cors 설정 필요
-				.setAllowedOrigins("http://localhost:5173");
-	}//
-}
+//package kr.co.iei.chat.config;
+//
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.context.annotation.Configuration;
+//import org.springframework.web.socket.config.annotation.EnableWebSocket;
+//import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
+//import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
+//
+//@Configuration
+//@EnableWebSocket
+//public class WebSocketConfig implements WebSocketConfigurer{
+//	@Autowired
+//	private SimpleWebSocketHandler simpleWebSocketHandler;
+//
+//	@Override
+//	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+//		// /connect url로 websocket 연결 요청이 들어오면, 핸드러 클래스가 처리
+//		registry.addHandler(simpleWebSocketHandler, "/connect")
+//				// securityconfig 에서의 cors 예외는 http 요청에 대한 예외. 따라서 websocket 프로토콜에 대한 요청에 대해서는 별도의 cors 설정 필요
+//				.setAllowedOrigins("http://localhost:5173");
+//	}//
+//}

@@ -1,8 +1,10 @@
+window.global = window;
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "./utils/useAuthStore";
 import axios from "axios";
 import styles from "./Join.module.css";
+import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
   const [member, setMember] = useState({ email: "", password: "" });
@@ -18,6 +20,9 @@ const Login = () => {
     axios
       .post(`${import.meta.env.VITE_BACKSERVER}/member/doLogin`, member)
       .then((res) => {
+        const role = jwtDecode(res.data.token).role;
+        const email = jwtDecode(res.data.token).sub;
+        console.log(`role: ${role}, email: ${email}`);
         login(res.data);
         // axios.defaults.headers.common["Authorization"] = newData.token;
         navigate("/");
