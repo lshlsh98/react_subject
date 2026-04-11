@@ -6,9 +6,7 @@ import "./App.css";
 import Join from "./Join";
 import Login from "./Login";
 import MemberList from "./MemberList";
-import { useEffect } from "react";
-import axios from "axios";
-import useAuthStore from "./utils/useAuthStore";
+import SimpleWebsocket from "./SimpleWebsocket";
 
 const App = () => {
   // 새로고침 시 일어나는 동작
@@ -26,6 +24,7 @@ const App = () => {
           <Route path="/member/create" element={<Join />} />
           <Route path="/member/login" element={<Login />} />
           <Route path="/member/list" element={<MemberList />} />
+          <Route path="/simple/chat" element={<SimpleWebsocket />} />
         </Routes>
       </main>
     </div>
