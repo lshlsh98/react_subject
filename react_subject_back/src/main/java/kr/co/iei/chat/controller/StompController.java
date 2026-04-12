@@ -7,6 +7,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 
+import kr.co.iei.chat.model.service.ChatService;
 import kr.co.iei.chat.model.vo.ChatMessageReqDto;
 
 @Controller
@@ -14,6 +15,8 @@ public class StompController {
 	
 	@Autowired
 	private SimpMessageSendingOperations messageTemplate;
+	@Autowired
+	private ChatService chatService;
 
 
 //	// 방법1. MessageMapping(수신)과 SendTo(topic 에 메시지 전달) 한꺼번에 처리
@@ -28,10 +31,11 @@ public class StompController {
 	
 	// 방법2. MessageMapping 에노테이션에만 활용
 	@MessageMapping("/{roomId}") 	
-	public void sendMessage(@DestinationVariable Long roomId, ChatMessageReqDto chatMessageDto) {
-		System.out.println(chatMessageDto.getMessage());
+	public void sendMessage(@DestinationVariable Long roomId, ChatMessageReqDto chatMessageReqDto) {
+		System.out.println(chatMessageReqDto.getMessage());
+		chatService.saveMessage(roomId, chatMessageReqDto);
 		// @SendTo 의 역할
-		messageTemplate.convertAndSend("/topic/" + roomId, chatMessageDto);
+		messageTemplate.convertAndSend("/topic/" + roomId, chatMessageReqDto);
 	}//
 	
 }

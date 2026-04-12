@@ -2,7 +2,64 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="kr.co.iei.chat.model.dao.ChatDao">
 	
-
+	<select id="findChatRoomById" resultType="chatRoom">
+		SELECT * 
+		FROM chat_room
+		WHERE id = #{roomId}
+	</select>
 	
+	<select id="findMemberByEmail" resultType="member">
+		SELECT * 
+		FROM member_tbl
+		WHERE email = #{senderEmail}
+	</select>
+	
+	<insert id="saveChatMessage">
+		INSERT INTO chat_message 
+		VALUES (#{id}, #{chatRoomId}, #{memberId}, #{content}, sysdate)
+	</insert>
+	
+	<select id="findChatParticipantAllById" resultType="chatParticipant">
+		SELECT *
+		FROM chat_participant
+	</select>
+	
+	<insert id="saveReadStatus">
+		INSERT INTO message_read_status 
+		VALUES (message_read_status_seq.NEXTVAL, #{messageId}, #{memberId}, #{chatRoomId}, #{isRead})
+	</insert>
+	
+	<insert id="saveChatRoom">
+		INSERT INTO chat_room 
+		VALUES (#{id}, #{isGroupChat}, #{name})
+	</insert>
+	
+	<insert id="saveChatParticipant">
+		INSERT INTO chat_participant 
+		VALUES (chat_participant_seq.NEXTVAL, #{chatRoomId}, #{memberId})
+	</insert>
+	
+	<select id="getChatRoomId" resultType="Long">
+		SELECT chat_room_seq.NEXTVAL FROM dual
+	</select>
+	
+	<select id="getChatMessageId" resultType="Long">
+		SELECT chat_message_seq.NEXTVAL FROM dual
+	</select>
+	
+	<select id="getGroupChatRooms" resultType="chatRoomListResDto">
+		SELECT 
+			id AS roomId,
+			name AS roomName
+		FROM chat_room
+		WHERE is_group_chat = 2
+	</select>
+	
+	<select id="findByChatRoomAndMember" resultType="int">
+		SELECT COUNT(*)
+		FROM chat_participant
+		WHERE chat_room_id = #{chatRoomId} 
+		 	  AND member_id = #{memberId}
+	</select>
 </mapper>
 

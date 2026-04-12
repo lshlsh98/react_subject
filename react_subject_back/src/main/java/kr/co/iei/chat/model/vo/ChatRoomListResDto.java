@@ -5,17 +5,15 @@ import org.apache.ibatis.type.Alias;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
-@Builder
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Alias("chatParticipant")
-public class ChatParticipant {
+@Builder
+@Alias("chatRoomListResDto")
+public class ChatRoomListResDto {
 	
-	private Long id;
-	private Long chatRoomId;
-	private Long memberId;
+	private Long roomId;
+	private String roomName;
 }

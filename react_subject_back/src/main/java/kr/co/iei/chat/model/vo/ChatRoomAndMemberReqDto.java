@@ -1,21 +1,14 @@
 package kr.co.iei.chat.model.vo;
 
-import org.apache.ibatis.type.Alias;
-
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
-@Builder
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Alias("chatParticipant")
-public class ChatParticipant {
+public class ChatRoomAndMemberReqDto {
 	
-	private Long id;
 	private Long chatRoomId;
 	private Long memberId;
 }
