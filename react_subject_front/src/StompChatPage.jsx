@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./SimpleWebsocket.module.css";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
-import axios from "axios";
 import useAuthStore from "./utils/useAuthStore";
+import { useParams } from "react-router-dom";
+import axios from "./utils/axios";
 
 const StompChatPage = () => {
   /*
@@ -18,6 +19,7 @@ const StompChatPage = () => {
   const token = useAuthStore((state) => state.token);
   const senderEmail = useAuthStore((state) => state.email);
   const subscriptionRef = useRef(null);
+  const { roomId } = useParams();
 
   const connectWebsocket = () => {
     if (stompClient.current?.active) return;
@@ -37,16 +39,22 @@ const StompChatPage = () => {
           subscriptionRef.current.unsubscribe(); // 중복 방지
         }
 
-        subscriptionRef.current = client.subscribe("/topic/1", (message) => {
-          let parseMessage;
-          try {
-            parseMessage = JSON.parse(message.body);
-          } catch (e) {
-            parseMessage = { message: message.body };
-          }
+        subscriptionRef.current = client.subscribe(
+          `/topic/${roomId}`,
+          (message) => {
+            let parseMessage;
+            try {
+              parseMessage = JSON.parse(message.body);
+            } catch (e) {
+              parseMessage = { message: message.body };
+            }
 
-          setMessages((prev) => [...prev, parseMessage]);
-        });
+            setMessages((prev) => [...prev, parseMessage]);
+          },
+          {
+            Authorization: `Bearer ${token}`, // subscribe 할 때도 토큰
+          },
+        );
       },
     });
 
@@ -76,7 +84,7 @@ const StompChatPage = () => {
         message: newMessage,
       };
       stompClient.current.publish({
-        destination: "/publish/1",
+        destination: `/publish/${roomId}`,
         body: JSON.stringify(obj),
       });
       setNewMessage("");
@@ -85,6 +93,10 @@ const StompChatPage = () => {
 
   useEffect(() => {
     if (!token) return;
+
+    axios.get(`/chat/history/${roomId}`).then((res) => {
+      setMessages(res.data);
+    });
 
     connectWebsocket();
 

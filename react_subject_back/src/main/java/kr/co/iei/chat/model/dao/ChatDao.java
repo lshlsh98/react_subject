@@ -5,10 +5,12 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import kr.co.iei.chat.model.vo.ChatMessage;
+import kr.co.iei.chat.model.vo.ChatMessageDto;
 import kr.co.iei.chat.model.vo.ChatParticipant;
 import kr.co.iei.chat.model.vo.ChatRoom;
 import kr.co.iei.chat.model.vo.ChatRoomAndMemberReqDto;
 import kr.co.iei.chat.model.vo.ChatRoomListResDto;
+import kr.co.iei.chat.model.vo.MyChatListResDto;
 import kr.co.iei.chat.model.vo.ReadStatus;
 import kr.co.iei.member.model.vo.Member;
 
@@ -36,8 +38,15 @@ public interface ChatDao {
 	List<ChatRoomListResDto> getGroupChatRooms();
 
 	int findByChatRoomAndMember(ChatRoomAndMemberReqDto req);
-	
-	
-	
+
+	List<ChatMessageDto> findByChatRoomId(Long id);
+
+	List<ReadStatus> findReadStatusByChatRoomAndMember(ChatRoomAndMemberReqDto req);
+
+	void updateIsRead(ChatRoomAndMemberReqDto req);
+
+	List<MyChatListResDto> getMyChatRooms(Long id);
+
+	Long getCountIsReadZero(ChatRoomAndMemberReqDto req);
 	
 }

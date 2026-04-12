@@ -1,5 +1,6 @@
 package kr.co.iei.chat.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,11 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.iei.chat.model.dao.ChatDao;
 import kr.co.iei.chat.model.vo.ChatMessage;
-import kr.co.iei.chat.model.vo.ChatMessageReqDto;
+import kr.co.iei.chat.model.vo.ChatMessageDto;
 import kr.co.iei.chat.model.vo.ChatParticipant;
 import kr.co.iei.chat.model.vo.ChatRoom;
 import kr.co.iei.chat.model.vo.ChatRoomAndMemberReqDto;
 import kr.co.iei.chat.model.vo.ChatRoomListResDto;
+import kr.co.iei.chat.model.vo.MyChatListResDto;
 import kr.co.iei.chat.model.vo.ReadStatus;
 import kr.co.iei.common.exception.NotFoundException;
 import kr.co.iei.member.model.vo.Member;
@@ -34,7 +36,7 @@ public class ChatService {
         this.subjectController = subjectController;
     }
 
-	public void saveMessage(Long roomId, ChatMessageReqDto chatMessageReqDto) {
+	public void saveMessage(Long roomId, ChatMessageDto chatMessageReqDto) {
 		// 채팅방 조회
 		ChatRoom chatRoom = chatDao.findChatRoomById(roomId);
 		if (chatRoom == null) {
@@ -136,7 +138,88 @@ public class ChatService {
 		chatDao.saveChatParticipant(chatParticipant);
 	}//
 
-	
+	public List<ChatMessageDto> getChatHistory(Long roomId) {
+		// 내가 해당 채팅방의 참여자가 아닐 경우 에러
+		ChatRoom chatRoom = chatDao.findChatRoomById(roomId);
+		if(chatRoom == null) {
+			throw new NotFoundException("chatRoom can not be found");
+		}
+				
+		Member member = chatDao.findMemberByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+		if(member == null) {
+			throw new NotFoundException("member can not be found");
+		}
+		
+		List<ChatParticipant> chatParticipants = chatDao.findChatParticipantAllById(chatRoom.getId());
+		boolean check = false;
+		for(ChatParticipant c : chatParticipants) {
+			if(c.getMemberId().equals(member.getId())) {
+				check = true;
+			}
+		}
+		if(!check) {
+			throw new IllegalArgumentException("본인이 속하지 않은 채팅방 입니다.");
+		}
+		
+		// 본인이 속한 채팅방의 경우 history 반환
+		List<ChatMessageDto> list = chatDao.findByChatRoomId(chatRoom.getId());
+				
+		return list;
+	}//
+
+	public boolean isRoomParticipant(String email, Long roomId) {
+		ChatRoom chatRoom = chatDao.findChatRoomById(roomId);
+		if(chatRoom == null) {
+			throw new NotFoundException("chatRoom can not be found");
+		}
+				
+		Member member = chatDao.findMemberByEmail(email);
+		if(member == null) {
+			throw new NotFoundException("member can not be found");
+		}
+		
+		List<ChatParticipant> chatParticipants = chatDao.findChatParticipantAllById(chatRoom.getId());
+		for(ChatParticipant c : chatParticipants) {
+			if(c.getMemberId().equals(member.getId())) {
+				return true;
+			}
+		}
+		
+		return false;
+	}//
+
+	public void messageRead(Long roomId) {
+		ChatRoom chatRoom = chatDao.findChatRoomById(roomId);
+		if(chatRoom == null) {
+			throw new NotFoundException("chatRoom can not be found");
+		}
+				
+		Member member = chatDao.findMemberByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+		if(member == null) {
+			throw new NotFoundException("member can not be found");
+		}
+		
+		ChatRoomAndMemberReqDto req = new ChatRoomAndMemberReqDto(chatRoom.getId(), member.getId());
+		chatDao.updateIsRead(req);
+		
+	}//
+
+	public List<MyChatListResDto> getMyChatRooms() {
+		Member member = chatDao.findMemberByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+		if(member == null) {
+			throw new NotFoundException("member can not be found");
+		}
+		
+		List<MyChatListResDto> MyChatListResDtos = chatDao.getMyChatRooms(member.getId());
+		for(MyChatListResDto d :  MyChatListResDtos) {
+			ChatRoomAndMemberReqDto req = new ChatRoomAndMemberReqDto(d.getRoomId(), member.getId());
+			Long count = chatDao.getCountIsReadZero(req);
+			d.setUnReadCount(count == null ? 0 : count / 2); // 왜인지 모르겠지만 똑같은게 2번 찍힘
+		}
+		
+			
+		return MyChatListResDtos;
+	}//
 }
 
 

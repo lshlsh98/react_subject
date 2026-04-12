@@ -61,5 +61,51 @@
 		WHERE chat_room_id = #{chatRoomId} 
 		 	  AND member_id = #{memberId}
 	</select>
+	
+	<select id="findByChatRoomId" resultType="chatMessageDto">
+		SELECT 
+			c.content AS message,
+			m.email AS sender_email
+		FROM chat_message c
+		INNER JOIN member_tbl m 
+			ON (c.member_id = m.id)
+		WHERE chat_room_id = #{id}
+		ORDER BY c.created_at ASC
+	</select>
+	
+	<select id="findReadStatusByChatRoomAndMember" resultType="readStatus">
+		SELECT * 
+		FROM message_read_status
+		WHERE chat_room_id = #{chatRoomId} 
+			  AND member_id = #{member_id}
+	</select>
+	
+	<update id="updateIsRead">
+		UPDATE message_read_status
+		SET is_read = 1
+		WHERE chat_room_id = #{chatRoomId} 
+			  AND member_id = #{member_id}
+	</update>
+	
+	<select id="getMyChatRooms" resultType="myChatListResDto">
+		SELECT 
+			p.chat_room_id AS room_id,
+			r.name AS room_name,
+			r.is_group_chat
+			
+		FROM chat_participant p
+		INNER JOIN chat_room r
+			ON (p.chat_room_id = r.id)
+		
+		WHERE member_id = #{id}
+	</select>
+	
+	<select id="getCountIsReadZero" resultType="Long">
+		SELECT COUNT(*)
+		FROM message_read_status
+		WHERE chat_room_id = #{chatRoomId}
+		        AND member_id = #{memberId}
+		        AND is_read = 0
+	</select>
 </mapper>
 

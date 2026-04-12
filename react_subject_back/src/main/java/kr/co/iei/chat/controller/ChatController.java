@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.co.iei.chat.model.service.ChatService;
+import kr.co.iei.chat.model.vo.ChatMessageDto;
 import kr.co.iei.chat.model.vo.ChatRoomListResDto;
+import kr.co.iei.chat.model.vo.MyChatListResDto;
 
 @RestController
 @RequestMapping("/chat")
@@ -44,6 +46,30 @@ public class ChatController {
 		chatService.addParticipantToGroupChat(roomId);
 		
 		return ResponseEntity.ok().build();
+	}//
+	
+	// 이전 메시지 조회
+	@GetMapping("/history/{roomId}")
+	public ResponseEntity<?> getChatHistory(@PathVariable Long roomId){
+		List<ChatMessageDto> list = chatService.getChatHistory(roomId);
+		
+		return ResponseEntity.ok(list);
+	}//
+	
+	// 채팅 메시지 읽음 처리
+	@PostMapping("/room/{roomId}/read")
+	public ResponseEntity<?> messageRead(@PathVariable Long roomId){
+		chatService.messageRead(roomId);
+		
+		return ResponseEntity.ok().build();
+	}//
+	
+	// 내 채팅방 목록 조회: roomId, roomName, 그룹채팅 여부, 메시지 읽음 갯수
+	@GetMapping("/my/rooms")
+	public ResponseEntity<?> getMyChatRooms(){
+		List<MyChatListResDto> list = chatService.getMyChatRooms();
+		
+		return ResponseEntity.ok(list);
 	}//
 
 }

@@ -8,7 +8,7 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 
 import kr.co.iei.chat.model.service.ChatService;
-import kr.co.iei.chat.model.vo.ChatMessageReqDto;
+import kr.co.iei.chat.model.vo.ChatMessageDto;
 
 @Controller
 public class StompController {
@@ -31,7 +31,7 @@ public class StompController {
 	
 	// 방법2. MessageMapping 에노테이션에만 활용
 	@MessageMapping("/{roomId}") 	
-	public void sendMessage(@DestinationVariable Long roomId, ChatMessageReqDto chatMessageReqDto) {
+	public void sendMessage(@DestinationVariable Long roomId, ChatMessageDto chatMessageReqDto) {
 		System.out.println(chatMessageReqDto.getMessage());
 		chatService.saveMessage(roomId, chatMessageReqDto);
 		// @SendTo 의 역할
