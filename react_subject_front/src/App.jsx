@@ -9,6 +9,7 @@ import MemberList from "./MemberList";
 import SimpleWebsocket from "./SimpleWebsocket";
 import StompChatPage from "./StompChatPage";
 import GroupChatList from "./GroupChatList";
+import MyChatPage from "./MyChatPage";
 
 const App = () => {
   // 새로고침 시 일어나는 동작
@@ -29,6 +30,7 @@ const App = () => {
           <Route path="/simple/chat" element={<SimpleWebsocket />} />
           <Route path="/chatpage/:roomId" element={<StompChatPage />} />
           <Route path="/groupchatting/list" element={<GroupChatList />} />
+          <Route path="/my/chat/page" element={<MyChatPage />} />
         </Routes>
       </main>
     </div>

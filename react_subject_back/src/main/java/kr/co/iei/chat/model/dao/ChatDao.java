@@ -48,5 +48,13 @@ public interface ChatDao {
 	List<MyChatListResDto> getMyChatRooms(Long id);
 
 	Long getCountIsReadZero(ChatRoomAndMemberReqDto req);
+
+	ChatParticipant findChatParticipantByChatRoomAndMember(ChatRoomAndMemberReqDto req);
+
+	void deleteChatParticipant(ChatParticipant c);
+
+	void deleteChatRoom(Long roomId);
+	
+	
 	
 }

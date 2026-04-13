@@ -1,0 +1,120 @@
+body {
+  margin: 0;
+}
+
+.header {
+  padding: 24px;
+  background-color: rgb(240, 240, 240);
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.header > h1 {
+  margin: 0;
+  text-align: center;
+  color: rgb(70, 87, 87);
+}
+
+.check_wrap {
+  width: 1200px;
+  display: flex;
+  margin: 20px auto;
+  margin-top: 40px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.keyword_wrap {
+  display: flex;
+  gap: 5px;
+}
+
+.refresh_icon {
+  cursor: pointer;
+  transition: transform 1s;
+}
+
+.refresh_icon:hover {
+  transform: rotate(45deg);
+}
+
+.select_wrap {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.select {
+  outline: none;
+  padding: 8px 12px;
+  appearance: none;
+  width: 100px;
+  text-align: center;
+  border-radius: 8px;
+}
+
+.input {
+  padding: 5px;
+  border-radius: 8px;
+  border: none;
+  border: 1px solid rgb(70, 87, 87);
+}
+
+.search_btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.subject_list_wrap {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+.subject_item {
+  list-style-type: none;
+  display: flex;
+  border-bottom: 1px solid rgb(206, 206, 206);
+  margin: 0;
+  padding: 10px;
+}
+
+.subject_item > li {
+  padding: 12px 0;
+  text-align: center;
+}
+
+.subject_no {
+  width: 8%;
+}
+
+.subject_title {
+  width: 40%;
+}
+
+.subject_instructor {
+  width: 14%;
+}
+
+.subject_category {
+  width: 14%;
+}
+
+.subject_level {
+  width: 14%;
+}
+
+.subject_count {
+  width: 10%;
+}
+
+.title_ul {
+  background-color: rgb(240, 240, 240);
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.title_ul > li {
+  color: rgb(70, 87, 87);
+  font-weight: 600;
+}

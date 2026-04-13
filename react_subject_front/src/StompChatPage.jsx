@@ -101,6 +101,8 @@ const StompChatPage = () => {
     connectWebsocket();
 
     return () => {
+      axios.post(`/chat/room/${roomId}/read`);
+
       subscriptionRef.current?.unsubscribe();
       stompClient.current?.deactivate();
     };
