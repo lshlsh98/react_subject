@@ -1,6 +1,7 @@
 package kr.co.iei.chat.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -54,6 +55,10 @@ public interface ChatDao {
 	void deleteChatParticipant(ChatParticipant c);
 
 	void deleteChatRoom(Long roomId);
+
+	Member findMemberById(Long memberId);
+
+	ChatRoom findExistingPrivateRoom(Map<String, Long> ids);
 	
 	
 	

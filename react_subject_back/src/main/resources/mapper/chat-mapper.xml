@@ -127,5 +127,37 @@
 		FROM chat_room
 		WHERE id = #{roomId}
 	</delete>
+	
+	<select id="findMemberById" resultType="member">
+		SELECT * 
+		FROM member_tbl
+		WHERE id = #{memberId}
+	</select>
+	
+	<select id="findExistingPrivateRoom" resultType="chatRoom">
+		SELECT * 
+		FROM chat_room			
+		WHERE id = (SELECT cp1.chat_room_id
+					FROM chat_participant cp1
+					INNER JOIN chat_participant cp2 
+						ON (cp1.chat_room_id = cp2.chat_room_id)
+					WHERE cp1.member_id = #{memberId} AND cp2.member_id = #{otherMemberId})
+				AND is_group_chat = 1		
+	</select>
+	
+	<!-- 
+	<select id="findExistingPrivateRoom" resultType="chatRoom">
+		SELECT DISTINCT cr.*
+		FROM chat_room cr
+		INNER JOIN chat_participant cp1 
+			ON cr.id = cp1.chat_room_id
+		INNER JOIN chat_participant cp2 
+			ON cr.id = cp2.chat_room_id
+		WHERE cp1.member_id = #{memberId}
+	  	AND cp2.member_id = #{otherMemberId}
+	  	AND cr.is_group_chat = 1
+	</select>
+	 -->
+	
 </mapper>
 

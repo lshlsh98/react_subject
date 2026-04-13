@@ -120,6 +120,10 @@ public class ChatService {
 			throw new NotFoundException("member can not be found");
 		}
 		
+		if(chatRoom.getIsGroupChat() == 1) {
+			throw new IllegalArgumentException("그룹채팅이 아닙니다.");
+		}
+		
 		// 이미 참여자인지 검증
 		ChatRoomAndMemberReqDto req = new ChatRoomAndMemberReqDto(chatRoom.getId(), member.getId());
 		int isDupMember =  chatDao.findByChatRoomAndMember(req); // 0: 참여자X / 1: 참여자O
@@ -248,6 +252,30 @@ public class ChatService {
 		if(chatParticipants.isEmpty()) {
 			chatDao.deleteChatRoom(roomId);
 		}
+	}//
+
+	public Long getOrCreatePrivateRoom(Long otherMemberId) {
+		Member member = chatDao.findMemberByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+		if(member == null) {
+			throw new NotFoundException("member can not be found");
+		}
+		
+		Member otherMember = chatDao.findMemberById(otherMemberId);
+		if(otherMember == null) {
+			throw new NotFoundException("member can not be found");
+		}
+
+		// 나와 상대방이 1:1 채팅에 이미 참석하고 있다면 해당 roomId retrun
+		Map<String, Long> ids = new HashMap<>();
+		ids.put("memberId", member.getId());
+		ids.put("otherMemberId", otherMember.getId());
+		ChatRoom chatRoom = chatDao.findExistingPrivateRoom(ids);
+		
+		// 만약 1:1 채팅방이 없을 경우 채팅방 개설
+		
+		// 두 사람 모두 참여자로 새롭게 추가
+		
+		return null;
 	}//
 }
 
