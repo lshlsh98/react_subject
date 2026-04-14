@@ -271,11 +271,25 @@ public class ChatService {
 		ids.put("otherMemberId", otherMember.getId());
 		ChatRoom chatRoom = chatDao.findExistingPrivateRoom(ids);
 		
+//		여기부터 추가
+		if (chatRoom != null) {
+			return chatRoom.getId();
+		}
+		
 		// 만약 1:1 채팅방이 없을 경우 채팅방 개설
+		Long newRoomId = chatDao.getChatRoomId();
+		ChatRoom newRoom = ChatRoom.builder()
+				.id(newRoomId)
+				.isGroupChat(1)
+				.name(member.getName() + " - " + otherMember.getName())
+				.build();
+		chatDao.saveChatRoom(newRoom);
 		
 		// 두 사람 모두 참여자로 새롭게 추가
+		addParticipantToRoom(newRoom, member);
+		addParticipantToRoom(newRoom, otherMember);
 		
-		return null;
+		return newRoom.getId();
 	}//
 }
 

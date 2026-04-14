@@ -7,10 +7,12 @@ const MemberListList = ({ subjectList }) => {
 
   const startChat = (otherMemberId) => {
     // 기존의 채팅방이 있으면 return 받고, 없으면 새롭게 생성된 roomId return
-    axios.post(``).then((res) => {
-      const roomId = res.data;
-      navigate(`/chatpage/${roomId}`);
-    });
+    axios
+      .post(`/chat/room/private/create?otherMemberId=${otherMemberId}`)
+      .then((res) => {
+        const roomId = res.data;
+        navigate(`/chatpage/${roomId}`);
+      });
   };
 
   return (
